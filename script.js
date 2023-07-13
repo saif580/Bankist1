@@ -40,3 +40,37 @@ const section1=document.querySelector('#section--1');
 btnScrollTo.addEventListener('click',function(e){
   section1.scrollIntoView({behavior:"smooth",block:'start',inline:'start'})
 })
+
+const navLink=document.querySelectorAll('.nav__link');
+for(let i=0;i<navLink.length;i++){
+  navLink[i].addEventListener('click',function(e){
+    e.preventDefault();
+    const link=this.getAttribute('href');
+    const element=document.querySelector(link);
+    element.scrollIntoView({behavior:'smooth'})
+  })
+}
+
+const tab=document.querySelectorAll('.operations__tab');
+const tabContainer=document.querySelector('.operations__tab-container');
+const tabContent=document.querySelectorAll('.operations__content');
+
+//use event delegation to reduce page load time
+
+tabContainer.addEventListener('click',function(e){
+  const element=e.target.closest('.operations__tab');
+  //guard clause
+  if(!element) return;
+  //removing active class from every tab
+  for(let i=0;i<tab.length;i++){
+    tab[i].classList.remove('operations__tab--active')
+  }
+  //adding tab to active tab
+  element.classList.add('operations__tab--active');
+
+  for(let i=0;i<tabContent.length;i++){
+    tabContent[i].classList.remove('operations__content--active')
+  }
+  //adding content
+  document.querySelector(`.operations__content--${element.dataset.tab}`).classList.add('operations__content--active')
+})
